@@ -1,0 +1,35 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "R para Ciência de Dados (2e) - Soluções dos Exercícios"
+  reader-mode: true
+
+  page-footer:
+    right: |
+      Este livro foi criado com <a href="https://quarto.org/">Quarto</a>.
+  site-url: https://pt.r4ds.hadley.nz
+  repo-branch: main
+  repo-actions: [edit, issue]
+  chapters:
+    - index.qmd
+    - intro.qmd
+    
+    - part: "Visualizar"
+      chapters:
+        - EDA.qmd
+
+format:
+  html:
+    theme:
+      - cosmo
+      - r4ds.scss
+    code-link: true
+
+    callout-appearance: simple
+
+editor: visual
+
+execute:
+  freeze: auto

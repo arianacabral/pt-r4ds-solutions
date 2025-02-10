@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>2&nbsp; Análise exploratória de dados – R para Ciência de Dados (2e) - Soluções dos Exercícios</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./intro.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-953188902fd40ebd00d909c07774c7db.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+</head>
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./EDA.html">Visualizar</a></li><li class="breadcrumb-item"><a href="./EDA.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Análise exploratória de dados</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">R para Ciência de Dados (2e) - Soluções dos Exercícios</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Alternar modo de leitor">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bem-vindo</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Visualizar</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./EDA.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Análise exploratória de dados</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Índice</h2>
+   
+  <ul>
+<li><a href="#pr%C3%A9-requisitos" id="toc-pré-requisitos" class="nav-link active" data-scroll-target="#pr%C3%A9-requisitos"><span class="header-section-number">2.1</span> Pré-requisitos</a></li>
+  <li><a href="#varia%C3%A7%C3%A3o" id="toc-variação" class="nav-link" data-scroll-target="#varia%C3%A7%C3%A3o"><span class="header-section-number">2.2</span> Variação</a></li>
+  <li><a href="#lidando-com-valores-at%C3%ADpicos" id="toc-lidando-com-valores-atípicos" class="nav-link" data-scroll-target="#lidando-com-valores-at%C3%ADpicos"><span class="header-section-number">2.3</span> Lidando com valores atípicos</a></li>
+  <li>
+<a href="#covaria%C3%A7%C3%A3o" id="toc-covariação" class="nav-link" data-scroll-target="#covaria%C3%A7%C3%A3o"><span class="header-section-number">2.4</span> Covariação</a>
+  <ul class="collapse">
+<li><a href="#uma-vari%C3%A1vel-categ%C3%B3rica-e-uma-num%C3%A9rica" id="toc-uma-variável-categórica-e-uma-numérica" class="nav-link" data-scroll-target="#uma-vari%C3%A1vel-categ%C3%B3rica-e-uma-num%C3%A9rica"><span class="header-section-number">2.4.1</span> Uma variável categórica e uma numérica</a></li>
+  <li><a href="#duas-vari%C3%A1veis-categ%C3%B3ricas" id="toc-duas-variáveis-categóricas" class="nav-link" data-scroll-target="#duas-vari%C3%A1veis-categ%C3%B3ricas"><span class="header-section-number">2.4.2</span> Duas variáveis categóricas</a></li>
+  <li><a href="#duas-vari%C3%A1veis-num%C3%A9ricas" id="toc-duas-variáveis-numéricas" class="nav-link" data-scroll-target="#duas-vari%C3%A1veis-num%C3%A9ricas"><span class="header-section-number">2.4.3</span> Duas variáveis numéricas</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./EDA.html">Visualizar</a></li><li class="breadcrumb-item"><a href="./EDA.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Análise exploratória de dados</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title">
+<span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Análise exploratória de dados</span>
+</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><section id="pré-requisitos" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="pré-requisitos">
+<span class="header-section-number">2.1</span> Pré-requisitos</h2>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cienciadedatos/dados">dados</a></span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="variação" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="variação">
+<span class="header-section-number">2.2</span> Variação</h2>
+<ol type="1">
+<li>Explore a distribuição das variáveis <code>x</code>, <code>y</code>, and <code>z</code> em <code>diamantes</code>. O que você aprendeu? Pense em um diamante e como você pode decidir qual dimensão é o comprimento, largura e profundidade.</li>
+</ol>
+<p><strong>Resolução:</strong> Inicialmente, vamos gerar os histogramas de cada uma das dimensões para melhor compreender cada uma.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">diamante</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
+<span>    cols <span class="op">=</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    names_to <span class="op">=</span> <span class="st">"variavel"</span>,</span>
+<span>    values_to <span class="op">=</span> <span class="st">"valor"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>    mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">valor</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">variavel</span><span class="op">)</span>, </span>
+<span>             ncol <span class="op">=</span> <span class="fl">3</span>, </span>
+<span>             scales <span class="op">=</span> <span class="st">"free"</span>,</span>
+<span>             strip.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
+<span>    strip.placement <span class="op">=</span> <span class="st">"outside"</span>,</span>
+<span>    axis.title.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"frequência"</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Visualizando os histogramas de cada das dimensões, é possível perceber que as dimensões são positivamente distribuídas (<span class="math inline">\(x &gt;= 0\)</span>, <span class="math inline">\(y &gt;= 0\)</span> e <span class="math inline">\(z &gt;= 0\)</span>), mas que há outliers, isto é, valores atípicos nas caudas inferior e superior das distribuições (hipótese esta sugerida devido aos limites amplos no eixo x dos gráficos).</p>
+<p>Para visualizar melhor os valores típicos de cada dimensão, geraremos novamente os histogramas. Mas, desta vez, com um zoom em uma região de interesse.</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">diamante</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
+<span>    cols <span class="op">=</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    names_to <span class="op">=</span> <span class="st">"variavel"</span>,</span>
+<span>    values_to <span class="op">=</span> <span class="st">"valor"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>    mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">valor</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">variavel</span><span class="op">)</span>, </span>
+<span>             ncol <span class="op">=</span> <span class="fl">3</span>, </span>
+<span>             scales <span class="op">=</span> <span class="st">"free"</span>,</span>
+<span>             strip.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
+<span>    strip.placement <span class="op">=</span> <span class="st">"outside"</span>,</span>
+<span>    axis.title.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"frequência"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2.5</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Agora, com esta última visualização, podemos perceber que, em geral, o comprimento (<code>x</code>) e a largura (<code>y</code>) dos diamantes dessa base de dados são mais similares, enquanto que a profundidade (<code>z</code>) parece ser menor.</p>
+<ol start="2" type="1">
+<li>Explore a distribuição de <code>preço</code>. Você percebe algo incomum ou surpreendente? (Dica: pense cuidadosamente sobre o binwidth e tenha certeza que você tentou uma ampla gama de valores.)</li>
+</ol>
+<p><strong>Resolução:</strong> Inicialmente, vamos gerar o histograma da variável <code>preco</code> para tentar compreender sua distribuição, mas sem alterar o parâmetro <code>binwidth</code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">diamante</span>,</span>
+<span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">preco</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"preço (US$)"</span>, y <span class="op">=</span> <span class="st">"frequência"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>O histograma gerado sugere que a distribuição de preços é assimétrica à direita. Isso significa que a maioria dos diamantes possui preços concentrados em faixas mais baixas, criando um pico pronunciado na parte inicial da distribuição. No entanto, há uma cauda longa estendendo-se para valores mais altos, indicando a presença de alguns diamantes com preços extremamente elevados.</p>
+<p>Agora, vamos explorar diferentes valores de <code>binwidth</code> para verificar se conseguimos identificar algum padrão ou detalhe que possa estar passando despercebido.</p>
+<p>Entretanto, uma questão crucial que surge é: como determinar os valores ideais para <code>binwidth</code>?</p>
+<p>A escolha do valor de <code>binwidth</code> é uma parte crucial ao criar histogramas, pois afeta como a variável de interesse será visualizada e interpretada. Mas, não existe uma abordagem única para determinar o valor ideal para <code>binwidth</code>.</p>
+<p>Se você tiver interessado no assunto, pode pesquisar mais sobre <strong>Regra de Sturges</strong>, <strong>Regra de Scott</strong> e <strong>Regra de Freedman-Diaconis</strong> a fim de obter uma visão mais formal da estatística por trás do assunto.</p>
+<p>Aqui, será apresentada uma abordagem mais empírica para o tema, por meio da experimentação e visualização.</p>
+<p>Para tanto, vamos explorar valores pequenos e grandes de <code>binwidth</code> para tentar compreender, na prática, como o <code>binwidth</code> afeta a interpretação do histograma.</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">binwidths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">0.05</span>, to <span class="op">=</span> <span class="fl">2.5</span>, by <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">5</span>, to <span class="op">=</span> <span class="fl">100</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">500</span>, to <span class="op">=</span> <span class="fl">1500</span>, by <span class="op">=</span> <span class="fl">250</span><span class="op">)</span>,</span>
+<span>  <span class="fl">15000</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">binwidths</span>, \<span class="op">(</span><span class="va">bw</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="va">diamante</span>,</span>
+<span>    mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">preco</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="va">bw</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>      title <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"binwidth = {bw}"</span><span class="op">)</span>,</span>
+<span>      x <span class="op">=</span> <span class="st">"preço (US$)"</span>,</span>
+<span>      y <span class="op">=</span> <span class="st">"frequência"</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[2]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[3]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[4]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[5]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[6]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[7]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[8]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[9]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[10]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[11]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[12]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[13]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[14]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[15]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[16]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[17]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[18]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[19]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[20]]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[21]]</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-4.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-5.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-6.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-7.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-8.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-9.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-10.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-11.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-12.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-13.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-14.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-15.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-16.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-17.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-18.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-19.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-20.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-6-21.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Quando o valor de <code>binwidth</code> é excessivamente pequeno, o histograma passa a refletir a frequência de cada valor individual, sem proporcionar uma visualização agrupada por classes, o que dificulta uma interpretação mais generalizada. Por outro lado, quando o <code>binwidth</code> é demasiadamente grande, os dados são agrupados em poucas classes, o que pode ocultar detalhes importantes ou, em casos extremos, levar a interpretações equivocadas (observe o caso em que <code>binwidth = 15.000</code>). Por tanto, um <code>binwidth</code> inadequado pode ocultar padrões importantes ou criar padrões artificiais.</p>
+<p>Mas, quando variamos os valores de <code>binwidth</code> entre 5 e 75, percebemos algo curioso. Em torno de US$ 1.500, há uma lacuna no histograma, sugerindo que, portanto, não há diamantes com preços em torno de US$ 1.500,00.</p>
+<ol start="3" type="1">
+<li>Quantos diamantes equivalem a 0,99 quilates? Quantos equivalem a 1 quilate? O que você acha que é a causa da diferença?</li>
+</ol>
+<p><strong>Resolução:</strong> Inicialmente, vamos gerar o histograma, dando um zoom próximo a esses valores.</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">diamante</span>,</span>
+<span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">quilate</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"quilate (ct)"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"frequência"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.97</span>, <span class="fl">1.02</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Na base de dados, havia mais diamantes com exatamente 1 quilate do que com 0,99 quilates. Essa diferença pode ser explicada por fatores comerciais, já que o peso da pedra impacta diretamente em seu valor e, para além disso, o preço tende a aumentar significativamente quando o peso atinge um peso crítico, como 1 quilate, devido ao apelo psicológico e ao valor de mercado associado a esse peso simbólico.</p>
+<ol start="4" type="1">
+<li>Compare e contraste coord_cartesian() vs.&nbsp;xlim() ou ylim() quando fizer uma ampliação em um histograma. O que acontece se você deixa o binwidth desativado? O que acontece se você tentar ampliar de forma que apenas meia barra seja exibida?</li>
+</ol>
+<p><strong>Resolução:</strong> Quando as funções <code><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim()</a></code> ou <code><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim()</a></code> são utilizadas, os dados que não pertencem ao intervalo especificado são removidos. Em outras palavras, isso significa que as funções <code><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim()</a></code> e <code><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim()</a></code> realizam primeiro uma filtragem dos dados, removendo aqueles fora do intervalo especificado, para só então gerar o gráfico propriamente dito. Isso, no entanto, pode afetar a estimativa de frequência das classes do histograma, já que os demais dados são removidos. Diferentemente dessas duas funções, a <code><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian()</a></code> permite ampliar uma área no gráfico, mas sem remover os dados não contidos no intervalo de interesse, funcionando como um zoom na visualização.</p>
+<p>Podemos comparar este comportamento das funções nos gráficos abaixo.</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">diamante</span>,</span>
+<span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">quilate</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Usando a função coord_cartesian()"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"quilate (ct)"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"frequência"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.2</span>, <span class="fl">1.40</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">diamante</span>,</span>
+<span>  mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">quilate</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Usando a função xlim()"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"quilate (ct)"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"frequência"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.2</span>, <span class="fl">1.40</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></span>
+<span><span class="co">#&gt; Warning: Removed 50549 rows containing non-finite outside the scale range</span></span>
+<span><span class="co">#&gt; (`stat_bin()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">#&gt; (`geom_bar()`).</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Além disso, observe que, no histograma em que foi utilizada a função <code><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian()</a></code>, as barras correspondentes aos limites do intervalo definido permanecem visíveis no gráfico, enquanto que, no histograma em que foi utilizada a função <code><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim()</a></code>, não.</p>
+</section><section id="lidando-com-valores-atípicos" class="level2" data-number="2.3"><h2 data-number="2.3" class="anchored" data-anchor-id="lidando-com-valores-atípicos">
+<span class="header-section-number">2.3</span> Lidando com valores atípicos</h2>
+<ol type="1">
+<li>O que acontece com valores ausentes em um histograma? O que acontece com valores ausentes em um gráfico de barras? Por que existe uma diferença em como valores ausentes são tratados em histogramas e gráficos de barras?</li>
+</ol>
+<p><strong>Resolução:</strong> Os valores ausentes (<code>NA</code>) são tratados de maneira diferente em histogramas e gráficos de barras devido à natureza dos dados que cada tipo de gráfico representa.</p>
+<p>No histograma, valores ausentes não são incluídos no cálculo das frequências das classes e também não são apresentados graficamente, pois não representam nenhuma classe.</p>
+<p>Observe a mensagem ao gerar o histograma no exemplo abaixo.</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># transformando, em `NA`, os valores "estranhos" de `y`</span></span>
+<span><span class="va">diamante2</span> <span class="op">&lt;-</span> <span class="va">diamante</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    y <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/between.html">between</a></span><span class="op">(</span><span class="va">y</span>, <span class="fl">3</span>, <span class="fl">20</span><span class="op">)</span>, <span class="va">y</span>, <span class="cn">NA</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># gerando o histograma para a variável `y`</span></span>
+<span><span class="va">diamante2</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 9 rows containing non-finite outside the scale range</span></span>
+<span><span class="co">#&gt; (`stat_bin()`).</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Por outro lado, no gráfico de barras, os valores ausentes são considerados, por padrão, como uma das categorias e são apresentados graficamente como a frequência de ocorrência de <code>NA</code>s.</p>
+<p>No exemplo abaixo, <code>NA</code>a são introduzidos na variável <code>corte</code> para demonstrar como valores faltantes são apresentados em um gráfico de barras.</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># transformando, em `NA`, as categorias do corte nas observações em que `y` não está entre 3 e 20</span></span>
+<span><span class="va">diamante2</span> <span class="op">&lt;-</span> <span class="va">diamante</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    corte <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/between.html">between</a></span><span class="op">(</span><span class="va">y</span>, <span class="fl">3</span>, <span class="fl">20</span><span class="op">)</span>, <span class="va">corte</span>, <span class="cn">NA</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># gerando o gráfico de barra para a variável `corte`</span></span>
+<span><span class="va">diamante2</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">corte</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># gerando o gráfico de barra para a variável `corte` com um zoom para ver melhor a barra referente aos valores faltantes</span></span>
+<span><span class="va">diamante2</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">corte</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li>O que significa o <code>na.rm = TRUE</code> em <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> e <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code>?</li>
+</ol>
+<p><strong>Resolução:</strong> Quando é usado <code>na.rm = TRUE</code> nas funções <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> e <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code>, estamos indicando para estas funções que os valores ausentes (<code>NA</code>) devem ser removidos antes de serem realizados os cálculos.</p>
+<p>Quando <code>na.rm = FALSE</code> e há valores faltantes na sequência, as funções retornam <code>NA</code> como resultado. Já quando <code>na.rm = TRUE</code> e há valores faltantes na sequência, as funções, primeiramente, eliminam os <code>NA</code>s e, depois, realizam os cálculos.</p>
+<p>Na prática, podemos comparar os resultados de quando <code>na.rm</code> é definido como <code>FALSE</code> (<em>default</em>) e <code>TRUE</code>, por exemplo, ao estimar a média do conjunto <span class="math inline">\(\{1, 2, 3, 4, NA\}\)</span>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># criando um conjunto que apresenta NA</span></span>
+<span><span class="va">conjunto_com_na</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="cn">NA</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># estimando a média com `na.rm = FALSE`</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">conjunto_com_na</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] NA</span></span>
+<span></span>
+<span><span class="co"># estimando a média com `na.rm = TRUE`</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">conjunto_com_na</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2.5</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="1">
+<li>Recrie o gráfico de frequência de <code>saida_programada</code> colorido de acordo com o voo ter sido cancelado ou não. Também use o facetamento para a variável <code>cancelado</code>. Experimente diferentes valores do argumento <code>scales</code> na função de facetamento para mitigar o efeito de mais voos não cancelados do que voos cancelados.</li>
+</ol>
+<p><strong>Resolução:</strong> Para conseguir ver a distribuição de cada categoria, tendo em vista que uma das categorias (a categoria referente aos voos não cancelados) tem muito mais voos do que outra (a categoria referente aos voos não cancelados), podemos gerar subgráficos para cada nível da variável <code>cancelado</code>, deixando que o eixo y, o qual expressa a frequência, seja ajustado individualmente para cada um.</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">voos2</span> <span class="op">&lt;-</span> <span class="va">voos</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    cancelado <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">horario_saida</span><span class="op">)</span>,</span>
+<span>    hora_programada <span class="op">=</span> <span class="va">saida_programada</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html">%/%</a></span> <span class="fl">100</span>,</span>
+<span>    min_programado <span class="op">=</span> <span class="va">saida_programada</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html">%%</a></span> <span class="fl">100</span>,</span>
+<span>    saida_programada_em_hora <span class="op">=</span> <span class="va">hora_programada</span> <span class="op">+</span> <span class="op">(</span><span class="va">min_programado</span> <span class="op">/</span> <span class="fl">60</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> </span>
+<span></span>
+<span><span class="va">voos2</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    cancelado <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">cancelado</span> <span class="op">==</span> <span class="cn">TRUE</span>, <span class="st">"cancelado"</span>, <span class="st">"não cancelado"</span><span class="op">)</span>,</span>
+<span>    cancelado <span class="op">=</span> <span class="fu">forcats</span><span class="fu">::</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">cancelado</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">saida_programada_em_hora</span>, color <span class="op">=</span> <span class="va">cancelado</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_freqpoly</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">cancelado</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">1</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"saída programada (horas)"</span>, y <span class="op">=</span> <span class="st">"frequência"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>  <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="covariação" class="level2" data-number="2.4"><h2 data-number="2.4" class="anchored" data-anchor-id="covariação">
+<span class="header-section-number">2.4</span> Covariação</h2>
+<section id="uma-variável-categórica-e-uma-numérica" class="level3" data-number="2.4.1"><h3 data-number="2.4.1" class="anchored" data-anchor-id="uma-variável-categórica-e-uma-numérica">
+<span class="header-section-number">2.4.1</span> Uma variável categórica e uma numérica</h3>
+<ol type="1">
+<li>Use o que você aprendeu para melhorar a visualização dos horários de partida de voos cancelados e não cancelados.</li>
+</ol>
+<p><strong>Resolução:</strong></p>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">dados</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/dados/man/voos.html">voos</a></span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    cancelado <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">horario_saida</span><span class="op">)</span>,</span>
+<span>    cancelado <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">cancelado</span> <span class="op">==</span> <span class="cn">TRUE</span>, <span class="st">"cancelado"</span>, <span class="st">"não cancelado"</span><span class="op">)</span>,</span>
+<span>    hora_programada <span class="op">=</span> <span class="va">saida_programada</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html">%/%</a></span> <span class="fl">100</span>,</span>
+<span>    min_programado <span class="op">=</span> <span class="va">saida_programada</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html">%%</a></span> <span class="fl">100</span>,</span>
+<span>    saida_programada <span class="op">=</span> <span class="va">hora_programada</span> <span class="op">+</span> <span class="op">(</span><span class="va">min_programado</span> <span class="op">/</span> <span class="fl">60</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu">forcats</span><span class="fu">::</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_reorder.html">fct_reorder</a></span><span class="op">(</span><span class="va">cancelado</span>, <span class="va">saida_programada</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">saida_programada</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"saída programada"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Com base na EDA, qual variável do banco de dados diamante parece ser mais importante para predizer o preço de um diamante? Como essa variável está correlacionada com corte? Por que a combinação dessas duas relações resulta em diamantes de pior qualidade terem preços mais elevados?</li>
+</ol>
+<p><strong>Resolução:</strong> Para visualizar as relações entre a variável <code>preco</code> e as demais variáveis númericas, podemos usar um <em>pair plot</em> que, além de gerar gráficos de dispersão, também estima a correlação entre as variáveis.</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggobi.github.io/ggally/">GGally</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggobi.github.io/ggally/reference/ggpairs.html">ggpairs</a></span><span class="op">(</span><span class="va">diamante</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="fl">6</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Embora as dimensões do diamanete pareçam ser importantes para predizer o preço, o quilate é a variável mais importante para predizer o preço. Observe que, à medida que o quilate aumenta, o preço aumenta de forma exponencial. Além disso, a análise de correlação confirma essa tendência, evidenciando uma relação forte entre o quilate e o preço do diamante.</p>
+<p>Como há muitos pontos, podemos gerar um boxplot agrupando os valores de quilate, assim como vimos anteriormente no capítulo.</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>  <span class="va">diamante</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">quilate</span>, y <span class="op">=</span> <span class="va">preco</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>group <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_width</a></span><span class="op">(</span><span class="va">quilate</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"quilate (ct)"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"preço (US$)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Agora, vamos investigar como o valor do quilate se correlaciona com corte.</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">diamante</span>,</span>
+<span>       mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>         x <span class="op">=</span> <span class="va">corte</span>,</span>
+<span>         y <span class="op">=</span> <span class="va">quilate</span></span>
+<span>       <span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"quilate (ct)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A variável <code>corte</code> representa a qualidade da lapidação do diamante, em que justo é pior que bom, que, por sua vez, é pior que muito bom e assim por diante.</p>
+<p>Observamos que diamantes com quilates mais altos tendem a ter qualidade de corte mais baixa (i.e., <em>justo</em>), enquanto que diamantes com qualidade de corte superior (i.e., <em>ideal</em>) tendem a terem menores valores de quilate.</p>
+<p>Tendo em vista essas duas relações, uma possível explicação para que diamantes com pior qualidade de corte terem preços mais elevados pode ser o fato da associação entre preço e quilate ser mais forte. Isso provavelmente porque, como diamantes maiores são mais raros e a demanda por eles é maior, seus preços aumentam mais do que a potencial “desvalorização” por ter uma lapidação de qualidade inferior.</p>
+<ol start="3" type="1">
+<li>Ao invés de trocar as variáveis x e y, adicione <code><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip()</a></code> como uma nova camada para transformar o boxplot de vertical para horizontal. Como isso se compara à troca de variáveis?</li>
+</ol>
+<p><strong>Resolução:</strong> Anteriormente, criamos boxplots trocando os eixos x e y. Agora, vamos usar <code><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip()</a></code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">milhas</span>, </span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu">forcats</span><span class="fu">::</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_reorder.html">fct_reorder</a></span><span class="op">(</span><span class="va">classe</span>, <span class="va">rodovia</span>, <span class="va">median</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">rodovia</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"milhas rodoviárias por galão"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A função <code><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip()</a></code>, portanto, permite obter uma representação rotacionada sem ter que alterar manualmente as variáveis nos eixos.</p>
+<ol start="4" type="1">
+<li>Um problema com os boxplots é que eles foram desenvolvidos em uma era de conjuntos de dados muito menores e tendem a exibir um número proibitivamente grande de “valores discrepantes”. Uma abordagem para remediar esse problema é o gráfico de valores de letras. Instale o pacote <code>lvplot</code>, e tente usar <code><a href="https://rdrr.io/pkg/lvplot/man/geom_lv.html">geom_lv()</a></code> para exibir a distribuição de preço <em>vs.</em> corte. O que você entende? Como você interpreta os gráficos?</li>
+</ol>
+<p><strong>Resolução:</strong> Um <em>letter value plot</em> é uma alternativa ao boxplot tradicional, especialmente útil para grandes conjuntos de dados.</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">lvplot</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">diamante</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">corte</span>, y <span class="op">=</span> <span class="va">preco</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/lvplot/man/geom_lv.html">geom_lv</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"preço (US$)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>É possível observar que diamantes de corte justo apresentam uma maior dispersão de preços. Além disso, diamantes com cortes de maior qualidade (i.e., ideal) geralmente possuem preços medianos menores.</p>
+<ol start="5" type="1">
+<li>Crie uma visualização dos preços dos diamantes vs.&nbsp;uma variável categórica do banco de dados diamante usando o <code><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin()</a></code>, depois um <code><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram()</a></code> facetado, e depois um <code><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_freqpoly()</a></code> colorido, e então um <code><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density()</a></code> colorido. Compare e contraste os quatro gráficos. Quais são os prós e contras de cada método de visualização da distribuição de uma variável numérica baseada nos níveis de uma variável categórica?</li>
+</ol>
+<p><strong>Resolução:</strong> Vamos visualizar a distribuição dos preços dos diamantes em relação à qualidade do corte por diferentes tipos de visualização.</p>
+<p><em>Gráfico de violino</em></p>
+<p>O gráfico de violino é uma combinação dos gráficos de densidade e boxplot. É uma representação interessante para visualizar a forma das distribuições e a variabilidade dos dados, mas pode tonar difícil a interpretação quando há muitas observações.</p>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">diamante</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">corte</span>, y <span class="op">=</span> <span class="va">preco</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"preço (US$)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span> </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><em>Histograma</em></p>
+<p>O histograma é uma representação da distribuição dos dados, possibilitando a comparação de frequências absolutas e identificaão de assimetrias. No entanto, é uma representação dependente do tamanho das classes (i.e., bins).</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">diamante</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">preco</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">corte</span><span class="op">)</span>, scales <span class="op">=</span> <span class="st">"free_y"</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"preço (US$)"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"frequência"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><em>Gráfico de frequência</em></p>
+<p>O gráfico de frequência é uma alternativa ao histograma que traça linhas ao invés de barras. É uma representação boa para comparar diferentes categorias. No entanto, pode dificultar a interpretação quando há muitas categorias.</p>
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">diamante</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">preco</span>, y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">after_stat</a></span><span class="op">(</span><span class="va">density</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_freqpoly</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">corte</span><span class="op">)</span>, binwidth <span class="op">=</span> <span class="fl">500</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"preço (US$)"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"frequência"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><em>Gráfico de densidade</em></p>
+<p>O gráfico de frequência é uma representação excelente para comparar distribuições e evidenciar padrões gerais, uma vez que suaviza variações nos dados. No entanto, pode subestimar ou superestimar densidades se a suavização for inadequada.</p>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">diamante</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">preco</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">corte</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"preço (US$)"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"densidade"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="6" type="1">
+<li>Se você tem um pequeno conjunto de dados, às vezes é útil usar <code><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter()</a></code> para evitar sobreposição dos pontos e visualizar mais facilmente a relação entre as variáveis contínuas e categóricas. O pacote <code>ggbeeswarm</code> disponibiliza vários métodos similares ao <code><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter()</a></code>. Liste-os e descreva brevemente o que cada um deles faz.</li>
+</ol>
+<p><strong>Resolução:</strong> O pacote ggbeeswarm oferece duas alternativas ao <code><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter()</a></code> do <code>ggplot2</code>, permitindo visualizar melhor a dispersão dos pontos ao evitar sobreposição.</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/pkg/ggbeeswarm/man/geom_quasirandom.html">geom_quasirandom()</a></code>: distribui os pontos aleatoriamente ao longo do eixo categórico, permitindo uma melhor visualização de pontos sobrepostos. Ao empregar a função, podem ser definidos vários métodos diferentes para determinar como os pontos serão distribuídos.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/eclarke/ggbeeswarm">ggbeeswarm</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># default</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">milhas</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">classe</span>, y <span class="op">=</span> <span class="va">rodovia</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggbeeswarm/man/geom_quasirandom.html">geom_quasirandom</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"milhas rodoviárias por galão"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Método quasirandom"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># pseudorandom</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">milhas</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">classe</span>, y <span class="op">=</span> <span class="va">rodovia</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggbeeswarm/man/geom_quasirandom.html">geom_quasirandom</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"pseudorandom"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"milhas rodoviárias por galão"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Método pseudorandom"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># maxout</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">milhas</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">classe</span>, y <span class="op">=</span> <span class="va">rodovia</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggbeeswarm/man/geom_quasirandom.html">geom_quasirandom</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"maxout"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"milhas rodoviárias por galão"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Método maxout"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># minout</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">milhas</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">classe</span>, y <span class="op">=</span> <span class="va">rodovia</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggbeeswarm/man/geom_quasirandom.html">geom_quasirandom</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"minout"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"milhas rodoviárias por galão"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Método minout"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># tukey</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">milhas</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">classe</span>, y <span class="op">=</span> <span class="va">rodovia</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggbeeswarm/man/geom_quasirandom.html">geom_quasirandom</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"tukey"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"milhas rodoviárias por galão"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Método tukey"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># tukeyDense</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">milhas</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">classe</span>, y <span class="op">=</span> <span class="va">rodovia</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggbeeswarm/man/geom_quasirandom.html">geom_quasirandom</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"tukeyDense"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"milhas rodoviárias por galão"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Método tukeyDense"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># smiley</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">milhas</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">classe</span>, y <span class="op">=</span> <span class="va">rodovia</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggbeeswarm/man/geom_quasirandom.html">geom_quasirandom</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"smiley"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"milhas rodoviárias por galão"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Método smiley"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># frowney</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">milhas</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">classe</span>, y <span class="op">=</span> <span class="va">rodovia</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggbeeswarm/man/geom_quasirandom.html">geom_quasirandom</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"frowney"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"milhas rodoviárias por galão"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Método frowney"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-23-2.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-23-3.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-23-4.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-23-5.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-23-6.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-23-7.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-23-8.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>
+<code><a href="https://rdrr.io/pkg/ggbeeswarm/man/geom_beeswarm.html">geom_beeswarm()</a></code>: organiza os pontos como um “enxame de abelhas” (<em>beeswarm</em>), agrupando-os mais próximos de modo a minimizar a sobreposição.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">milhas</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">classe</span>, y <span class="op">=</span> <span class="va">rodovia</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggbeeswarm/man/geom_beeswarm.html">geom_beeswarm</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"milhas rodoviárias por galão"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="duas-variáveis-categóricas" class="level3" data-number="2.4.2"><h3 data-number="2.4.2" class="anchored" data-anchor-id="duas-variáveis-categóricas">
+<span class="header-section-number">2.4.2</span> Duas variáveis categóricas</h3>
+<ol type="1">
+<li>Como você poderia redimensionar o conjunto de dados de contagem acima para mostrar mais claramente a distribuição do corte dentro da cor ou da cor dentro do corte?</li>
+</ol>
+<p><strong>Resolução:</strong> Para redimensionar o conjunto de dados de contagem no conjunto de dados de diamantes e visualizar melhor a distribuição do corte dentro da cor ou da cor dentro do corte, podemos normalizar as frequências calculando proporções em vez de frequências absolutas.</p>
+<p>Para mostrar a distribuição do corte dentro da cor, estimaremos a proporção de cada corte para cada cor.</p>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">diamante</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">cor</span>, <span class="va">corte</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cor</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>prop <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">cor</span>, y <span class="op">=</span> <span class="va">corte</span>, fill <span class="op">=</span> <span class="va">prop</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_c</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"proporção"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Para mostrar a distribuição da cor dentro do corte, estimaremos a proporção de cada cor para cada corte</p>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">diamante</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">corte</span>, <span class="va">cor</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">corte</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>prop <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">corte</span>, y <span class="op">=</span> <span class="va">cor</span>, fill <span class="op">=</span> <span class="va">prop</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_c</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"proporção"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Que diferentes insights de dados você obtém com um gráfico de barras segmentado se a cor for mapeada para a estética x e o corte for mapeado para a estética de preenchimento? Calcule as contagens que se enquadram em cada um dos segmentos.</li>
+</ol>
+<p><strong>Resolução:</strong></p>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">diamante2</span> <span class="op">&lt;-</span> <span class="va">diamante</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">cor</span>, <span class="va">corte</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">diamante2</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">cor</span>, y <span class="op">=</span> <span class="va">n</span>, fill <span class="op">=</span> <span class="va">corte</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"frequência"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Use <code><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile()</a></code> junto com <code>dplyr</code> para explorar como os atrasos médios nas partidas de voos variam de acordo com o destino e o mês do ano. O que torna o gráfico difícil de ler? Como você poderia melhorá-lo?</li>
+</ol>
+<p><strong>Resolução:</strong></p>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">voos</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">mes</span>, <span class="va">destino</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>    atraso_medio <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">atraso_saida</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    .groups <span class="op">=</span> <span class="st">"drop"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">mes</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">destino</span>, fill <span class="op">=</span> <span class="va">atraso_medio</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_c</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"mês"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"destino"</span>,</span>
+<span>    fill <span class="op">=</span> <span class="st">"atraso \nmédio (min)"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Nesta visualização, como há muitos destinos, os nomes dos destinos ficam sobrepostos e a representação não fica fácil de interpretar. Além disso, para alguns destinos, há menos voos em alguns meses, o que pode tornar o mapa de calor enganoso.</p>
+<p>Para facilitar a interpretação, poderíamos concentrar a nossa atenção nos destinos com voos regulares, isto é, que têm cobertura de 12 meses. Neste caso, valores ausentes correspondem a aeroportos que não têm voos regulares por serem, provavelmente, a aeroportos de pequeno porte.</p>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">voos2</span> <span class="op">&lt;-</span> <span class="va">voos</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">mes</span>, <span class="va">destino</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>    atraso_medio <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">atraso_saida</span>,</span>
+<span>                        na.rm <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>    <span class="op">)</span>, </span>
+<span>    .groups <span class="op">=</span> <span class="st">"drop"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">destino</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>cobertura_mensal <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">cobertura_mensal</span> <span class="op">==</span> <span class="fl">12</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Além disso, podemos ordenar os destinos pelo maior atraso médio para tornar as tendências mais claras no mapa.</p>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">voos2</span> <span class="op">&lt;-</span> <span class="va">voos2</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>destino <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html">reorder</a></span><span class="op">(</span><span class="va">destino</span>, <span class="va">atraso_medio</span><span class="op">)</span><span class="op">)</span> </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Como ainda há muitos destinos, podemos trocar os eixos x e y e rotacionar também os rótulos referentes aos destinos.</p>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">voos2</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">mes</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">destino</span>, fill <span class="op">=</span> <span class="va">atraso_medio</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_c</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"magma"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"mês"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"destino"</span>,</span>
+<span>    fill <span class="op">=</span> <span class="st">"atraso médio (min)"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
+<span>    legend.position <span class="op">=</span> <span class="st">"top"</span>,</span>
+<span>    axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">6</span>, angle <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="duas-variáveis-numéricas" class="level3" data-number="2.4.3"><h3 data-number="2.4.3" class="anchored" data-anchor-id="duas-variáveis-numéricas">
+<span class="header-section-number">2.4.3</span> Duas variáveis numéricas</h3>
+<ol type="1">
+<li>Em vez de resumir a distribuição condicional com um boxplot, você poderia usar um polígono de frequência. O que você precisa considerar ao usar <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_width()</a></code> vs.&nbsp;<code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_number()</a></code>? Como isso afeta a visualização da distribuição 2D de quilate e preco?</li>
+</ol>
+<p><strong>Resolução:</strong> Tanto a função <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_width()</a></code> quanto a <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_number()</a></code> permitem discretizar uma variável númerica em categórica.</p>
+<p>A função <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_width()</a></code> permite gerar grupos de mesma largura.</p>
+<div class="cell">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">menores_diamantes</span> <span class="op">&lt;-</span> <span class="va">diamante</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">quilate</span> <span class="op">&lt;</span> <span class="fl">3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>  <span class="va">menores_diamantes</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">preco</span>, color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_width</a></span><span class="op">(</span><span class="va">quilate</span>, width <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_freqpoly</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">500</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"preço (US$)"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"frequência"</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"quilate (ct)"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Já a função <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_number()</a></code> gera <span class="math inline">\(n\)</span> grupos com números (aproximadamente) iguais de observações.</p>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>  <span class="va">menores_diamantes</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">preco</span>, color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_number</a></span><span class="op">(</span><span class="va">quilate</span>, n <span class="op">=</span> <span class="fl">11</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_freqpoly</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">500</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"preço (US$)"</span>, y <span class="op">=</span> <span class="st">"frequência"</span>, color <span class="op">=</span> <span class="st">"quilate (ct)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Visualize a distribuição do <code>quilate</code>, particionado por <code>preco</code>.</li>
+</ol>
+<p><strong>Resolução:</strong></p>
+<div class="cell">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">menores_diamantes</span> <span class="op">&lt;-</span> <span class="va">diamante</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">quilate</span> <span class="op">&lt;</span> <span class="fl">3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">menores_diamantes</span>, </span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_width</a></span><span class="op">(</span><span class="va">preco</span>, <span class="fl">1500</span>, boundary <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">quilate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"preço (US$)"</span>, y <span class="op">=</span> <span class="st">"quilate (ct)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">menores_diamantes</span>,</span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_number</a></span><span class="op">(</span><span class="va">preco</span>, <span class="fl">10</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">quilate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"preço (US$)"</span>, y <span class="op">=</span> <span class="st">"quilate (ct)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-34-2.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Como a distribuição de preços dos diamantes muito grandes se compara à dos diamantes pequenos? É como você espera ou te surpreende?</li>
+</ol>
+<p><strong>Resolução:</strong> Para diamantes muito grandes, os preços são maiores e, além disso, mais variáveis. Essa maior variabilidade implica que alguns diamantes grandes são extremamente caros, enquanto outros não são tão caros quanto o esperado devido, provavelmente, a influência de outros fatores no preço do diamante (como, por exemplo, a qualidade do corte). Já os diamantes mais pequenos, por outro lado, agrupam-se mais em torno de preços mais baixos, o que sugere uma maior estabilidade nos preços de diamantes pequenos.</p>
+<ol start="4" type="1">
+<li>Combine duas das técnicas que você aprendeu para visualizar a distribuição combinada de <code>corte</code>, <code>quilate</code> e <code>preço</code>.</li>
+</ol>
+<p><strong>Resolução:</strong></p>
+<div class="cell">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">diamante</span>,</span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">corte</span>,</span>
+<span>           y <span class="op">=</span> <span class="va">preco</span>, </span>
+<span>           color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_number</a></span><span class="op">(</span><span class="va">quilate</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"qualidade do corte"</span>, </span>
+<span>       y <span class="op">=</span> <span class="st">"preço (US$)"</span>,</span>
+<span>       color <span class="op">=</span> <span class="st">"quilate (ct)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="5" type="1">
+<li>Gráficos bidimensionais revelam valores discrepantes que não são visíveis em gráficos unidimensionais. Por exemplo, alguns pontos no gráfico a seguir têm uma combinação incomum de valores <code>x</code> e <code>y</code>, o que torna os pontos discrepantes, embora seus valores <code>x</code> e <code>y</code> pareçam normais quando examinados separadamente. Por que um gráfico de dispersão é uma exibição melhor do que um gráfico agrupado neste caso?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">diamante</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&gt;=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">11</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">11</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Resolução:</strong> Ao gerar o gráfico de dispersão, torna-se mais óbvios os valores atípicos das relações entre as variáveis. Por exemplo, alguns diamantes podem ter comprimentos e larguras considerados normais individualmente, mas cujas combinações não parecem representar realmente um diamante (como um diamante extremamente longo, mas muito estreito).</p>
+<ol start="6" type="1">
+<li>Em vez de criar classes de largura igual com <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_width()</a></code>, poderíamos criar classes que contenham um número aproximadamente igual de pontos com cut_number(). Quais são as vantagens e desvantagens desta abordagem?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">menores_diamantes</span>, </span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">quilate</span>, y <span class="op">=</span> <span class="va">preco</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>group <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_number</a></span><span class="op">(</span><span class="va">quilate</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Resolução:</strong> Como é definido um número específico de grupos com um número aproximadamente igual de observações, os grupos (intervalos de valores) podem não ser uniformes, o que pode dificultar a interpretação direta dos valores. Portanto, esta estratégia é boa para comparar distribuições equilibradas, mas os intervalos podem ser irregulares e difíceis de interpretar.</p>
+
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiada");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/pt\.r4ds\.hadley\.nz");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./intro.html" class="pagination-link" aria-label="Introdução">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Este livro foi criado com <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+</body></html>
