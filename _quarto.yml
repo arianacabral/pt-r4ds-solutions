@@ -3,12 +3,13 @@ project:
   output-dir: docs
 
 book:
-  title: "R para Ciência de Dados (2e) - Soluções dos Exercícios"
+  title: "R para Ciência de Dados (2ª edição) - Soluções dos Exercícios"
   reader-mode: true
-
   page-footer:
     right: |
       Este livro foi criado com <a href="https://quarto.org/">Quarto</a>.
+  cover-image: cover.jpg
+  favicon: cover.jpg
   site-url: https://pt.r4ds.hadley.nz
   repo-branch: main
   repo-actions: [edit, issue]
