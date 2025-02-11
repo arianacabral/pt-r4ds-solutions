@@ -582,22 +582,30 @@ diamante |>
 **Resolução:**
 
 ```{r}
-
 diamante2 <- diamante |>
   dplyr::count(cor, corte) 
+
+diamante2 |>
+  knitr::kable(align = "c")
 
 diamante2 |>
     ggplot(aes(x = cor, y = n, fill = corte)) +
     geom_col() +
     labs(y = "frequência") +
     theme_minimal()
+```
 
+```{r}
 diamante2 |>
     ggplot(aes(x = cor, y = n, fill = corte)) +
     geom_col(position = position_dodge2()) +
     labs(y = "frequência") +
     theme_minimal()
 ```
+
+Independentemente da cor, parece haver mais diamantes com a qualidade ideal de corte e menos diamantes com corte justo. Ainda parece haver uma menor variabilidade de ocorrência de diamantes com corte justo entre as diferentes cores.
+
+Além disso, independente do corte, diamantes com as cores J, I e H parecem ser menos frequentes, o que talvez possa indicar que diamante nessas cores serem naturalmente menos comuns ou ainda acreditar que há uma preferência comercial por pedras mais incolores. Parece haver uma ocorrência similiar de diamentes com cortes muito bom e *premium*, tendo as cores D, E e F.
 
 
 3. Use `geom_tile()` junto com `dplyr` para explorar como os atrasos médios nas partidas de voos variam de acordo com o destino e o mês do ano. O que torna o gráfico difícil de ler? Como você poderia melhorá-lo?
