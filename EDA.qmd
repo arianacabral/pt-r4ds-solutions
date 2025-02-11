@@ -2,7 +2,6 @@
 title: "Análise exploratória de dados"
 format: html
 lang: pt-br
-theme: [cosmo, style.scss] 
 ---
 
 ```{r}
@@ -223,7 +222,7 @@ diamante2 |>
 
 Por outro lado, no gráfico de barras, os valores ausentes são considerados, por padrão, como uma das categorias e são apresentados graficamente como a frequência de ocorrência de `NA`s.
 
-No exemplo abaixo, `NA`a são introduzidos na variável `corte` para demonstrar como valores faltantes são apresentados em um gráfico de barras.
+No exemplo abaixo, `NA`s são introduzidos na variável `corte` para demonstrar como valores faltantes são apresentados em um gráfico de barras.
 
 ```{r}
 # transformando, em `NA`, as categorias do corte nas observações em que `y` não está entre 3 e 20
@@ -268,7 +267,7 @@ mean(conjunto_com_na, na.rm = TRUE)
 
 3. Recrie o gráfico de frequência de `saida_programada` colorido de acordo com o voo ter sido cancelado ou não. Também use o facetamento para a variável `cancelado`. Experimente diferentes valores do argumento `scales` na função de facetamento para mitigar o efeito de mais voos não cancelados do que voos cancelados.
 
-**Resolução:** Para conseguir ver a distribuição de cada categoria, tendo em vista que uma das categorias (a categoria referente aos voos não cancelados) tem muito mais voos do que outra (a categoria referente aos voos não cancelados), podemos gerar subgráficos para cada nível da variável `cancelado`, deixando que o eixo y, o qual expressa a frequência, seja ajustado individualmente para cada um. 
+**Resolução:** Para conseguir ver a distribuição de cada categoria, tendo em vista que uma das categorias (a categoria referente aos voos não cancelados) tem muito mais voos do que outra (a categoria referente aos voos cancelados), podemos gerar subgráficos para cada nível da variável `cancelado`, deixando que o eixo y, o qual expressa a frequência, seja ajustado individualmente para cada um. 
 
 
 ```{r}
@@ -285,12 +284,12 @@ voos2 |>
     cancelado = dplyr::if_else(cancelado == TRUE, "cancelado", "não cancelado"),
     cancelado = forcats::as_factor(cancelado)
   ) |>
-  ggplot(aes(x = saida_programada_em_hora, color = cancelado)) + 
+  ggplot(aes(x = saida_programada_em_hora)) + 
   geom_freqpoly(binwidth = 0.25) + 
   facet_wrap(vars(cancelado), ncol = 1, scales = "free_y") +
   labs(x = "saída programada (horas)", y = "frequência") + 
-  theme(legend.position = "none")  +
-  theme_minimal()
+  theme_minimal() +
+  theme(legend.position = "none") 
 ```
 
 ## Covariação
@@ -299,7 +298,7 @@ voos2 |>
 
 1. Use o que você aprendeu para melhorar a visualização dos horários de partida de voos cancelados e não cancelados.
 
-**Resolução:**
+**Resolução:** Podemos visualizar melhor a distribuição dos horários de partida de voos cancelados e não cancelados gerando um boxplot.
 
 ```{r}
 dados::voos |>
@@ -320,7 +319,7 @@ dados::voos |>
 
 2. Com base na EDA, qual variável do banco de dados diamante parece ser mais importante para predizer o preço de um diamante? Como essa variável está correlacionada com corte? Por que a combinação dessas duas relações resulta em diamantes de pior qualidade terem preços mais elevados?
 
-**Resolução:** Para visualizar as relações entre a variável `preco` e as demais variáveis númericas, podemos usar um *pair plot* que, além de gerar gráficos de dispersão, também estima a correlação entre as variáveis.
+**Resolução:** Para visualizar as relações entre a variável `preco` e as demais variáveis númericas, podemos usar um *pair plot* que, além de gerar gráficos de dispersão entre duas variáveis, também estima a correlação entre as variáveis, o que pode ser útil para compreender a associação entre as variáveis mesmo que não testemos os pressupostos para uma análise de correlação propriamente dita.
 
 ```{r}
 #| warning: false
@@ -333,7 +332,7 @@ ggpairs(diamante, columns = c(1:2, 6:10)) +
 
 ```
 
-Embora as dimensões do diamanete pareçam ser importantes para predizer o preço, o quilate é a variável mais importante para predizer o preço. Observe que, à medida que o quilate aumenta, o preço aumenta de forma exponencial. Além disso, a análise de correlação confirma essa tendência, evidenciando uma relação forte entre o quilate e o preço do diamante.
+Embora as dimensões do diamanete pareçam ser importantes para predizer o preço, o quilate é a variável mais importante para predizer o preço. Observe que, à medida que o quilate aumenta, o preço aumenta de forma exponencial. Além disso, a análise de correlação sugere essa tendência, evidenciando uma relação forte entre o quilate e o preço do diamante.
 
 Como há muitos pontos, podemos gerar um boxplot agrupando os valores de quilate, assim como vimos anteriormente no capítulo.
 
@@ -364,13 +363,13 @@ ggplot(data = diamante,
 
 A variável `corte` representa a qualidade da lapidação do diamante, em que justo é pior que bom, que, por sua vez, é pior que muito bom e assim por diante. 
 
-Observamos que diamantes com quilates mais altos tendem a ter qualidade de corte mais baixa (i.e., *justo*), enquanto que diamantes com qualidade de corte superior (i.e., *ideal*) tendem a terem menores valores de quilate.
+Observamos que diamantes com quilates mais altos parecem ter qualidade de corte mais baixa (i.e., *justo*), enquanto que diamantes com qualidade de corte superior (i.e., *ideal*) tendem a terem menores valores de quilate.
 
 Tendo em vista essas duas relações, uma possível explicação para que diamantes com pior qualidade de corte terem preços mais elevados pode ser o fato da associação entre preço e quilate ser mais forte. Isso provavelmente porque, como diamantes maiores são mais raros e a demanda por eles é maior, seus preços aumentam mais do que a potencial "desvalorização" por ter uma lapidação de qualidade inferior.
 
 3. Ao invés de trocar as variáveis x e y, adicione `coord_flip()` como uma nova camada para transformar o boxplot de vertical para horizontal. Como isso se compara à troca de variáveis?
 
-**Resolução:** Anteriormente, criamos boxplots trocando os eixos x e y. Agora, vamos usar `coord_flip()`.
+**Resolução:** Anteriormente, criamos boxplots trocando os eixos x e y. Agora, vamos usar `coord_flip()` para essa finalidade.
 
 ```{r}
 ggplot(milhas, 
@@ -401,7 +400,7 @@ ggplot(diamante, aes(x = corte, y = preco)) +
 
 É possível observar que diamantes de corte justo apresentam uma maior dispersão de preços. Além disso, diamantes com cortes de maior qualidade (i.e., ideal) geralmente possuem preços medianos menores.
 
-5. Crie uma visualização dos preços dos diamantes vs. uma variável categórica do banco de dados diamante usando o `geom_violin()`, depois um `geom_histogram()` facetado, e depois um `geom_freqpoly()` colorido, e então um `geom_density()` colorido. Compare e contraste os quatro gráficos. Quais são os prós e contras de cada método de visualização da distribuição de uma variável numérica baseada nos níveis de uma variável categórica?
+5. Crie uma visualização dos preços dos diamantes *vs.* uma variável categórica do banco de dados diamante usando o `geom_violin()`, depois um `geom_histogram()` facetado, e depois um `geom_freqpoly()` colorido, e então um `geom_density()` colorido. Compare e contraste os quatro gráficos. Quais são os prós e contras de cada método de visualização da distribuição de uma variável numérica baseada nos níveis de uma variável categórica?
 
 **Resolução:** Vamos visualizar a distribuição dos preços dos diamantes em relação à qualidade do corte por diferentes tipos de visualização.
 
@@ -422,7 +421,7 @@ ggplot(diamante, aes(x = corte, y = preco)) +
 
 _Histograma_
 
-O histograma é uma representação da distribuição dos dados, possibilitando a comparação de frequências absolutas e identificaão de assimetrias. No entanto, é uma representação dependente do tamanho das classes (i.e., bins).
+O histograma é uma representação da distribuição dos dados, possibilitando a comparação de frequências absolutas e identificaão de assimetrias. No entanto, é uma representação dependente do tamanho das classes (i.e., *bins*).
 
 ```{r}
 ggplot(diamante, aes(x = preco)) +
@@ -433,25 +432,25 @@ ggplot(diamante, aes(x = preco)) +
   theme_minimal() 
 ```
 
-_Gráfico de frequência_
+_Polígono de frequência_
 
-O gráfico de frequência é uma alternativa ao histograma que traça linhas ao invés de barras. É uma representação boa para comparar diferentes categorias. No entanto, pode dificultar a interpretação quando há muitas categorias.
+O polígono de frequência é uma alternativa ao histograma que traça linhas ao invés de barras. É uma representação boa para comparar diferentes categorias. No entanto, pode dificultar a interpretação quando há muitas categorias.
 
 ```{r}
 ggplot(diamante, aes(x = preco, y = after_stat(density))) + 
-  geom_freqpoly(aes(color = corte), binwidth = 500) +
+  geom_freqpoly(aes(color = corte), binwidth = 500, linewidth = 0.75) +
   labs(x = "preço (US$)",
        y = "frequência") +
   theme_minimal() 
 ```
 
-_Gráfico de densidade_
+_Densidade de probabilidade_
 
-O gráfico de frequência é uma representação excelente para comparar distribuições e evidenciar padrões gerais, uma vez que suaviza variações nos dados. No entanto, pode subestimar ou superestimar densidades se a suavização for inadequada.
+A densidade de probabilidade é uma representação excelente para comparar distribuições e evidenciar padrões gerais, uma vez que suaviza variações nos dados e padroniza as frequências das diferentes categorias. No entanto, pode subestimar ou superestimar densidades se a suavização for inadequada.
 
 ```{r}
 ggplot(diamante, aes(x = preco)) + 
-  geom_density(aes(color = corte)) +
+  geom_density(aes(color = corte), linewidth = 0.75) +
   labs(x = "preço (US$)",
        y = "densidade") +
   theme_minimal() 
@@ -459,7 +458,7 @@ ggplot(diamante, aes(x = preco)) +
 
 6. Se você tem um pequeno conjunto de dados, às vezes é útil usar `geom_jitter()` para evitar sobreposição dos pontos e visualizar mais facilmente a relação entre as variáveis contínuas e categóricas. O pacote `ggbeeswarm` disponibiliza vários métodos similares ao `geom_jitter()`. Liste-os e descreva brevemente o que cada um deles faz.
 
-**Resolução:** O pacote ggbeeswarm oferece duas alternativas ao `geom_jitter()` do `ggplot2`, permitindo visualizar melhor a dispersão dos pontos ao evitar sobreposição.
+**Resolução:** O pacote `ggbeeswarm` oferece duas alternativas ao `geom_jitter()` do `ggplot2`, permitindo visualizar melhor a dispersão dos pontos ao evitar sobreposição.
 
 + `geom_quasirandom()`: distribui os pontos aleatoriamente ao longo do eixo categórico, permitindo uma melhor visualização de pontos sobrepostos. Ao empregar a função, podem ser definidos vários métodos diferentes para determinar como os pontos serão distribuídos.
 
@@ -564,7 +563,7 @@ diamante |>
   theme_minimal()
 ```
 
-Para mostrar a distribuição da cor dentro do corte, estimaremos a proporção de cada cor para cada corte
+Agora, para mostrar a distribuição da cor dentro do corte, estimaremos a proporção de cada cor para cada corte.
 
 ```{r}
 diamante |>
@@ -578,19 +577,26 @@ diamante |>
   theme_minimal()
 ```
 
-2. Que diferentes insights de dados você obtém com um gráfico de barras segmentado se a cor for mapeada para a estética x e o corte for mapeado para a estética de preenchimento? Calcule as contagens que se enquadram em cada um dos segmentos.
+2. Que diferentes *insights* de dados você obtém com um gráfico de barras segmentado se a cor for mapeada para a estética x e o corte for mapeado para a estética de preenchimento? Calcule as contagens que se enquadram em cada um dos segmentos.
 
 **Resolução:**
 
 ```{r}
+
 diamante2 <- diamante |>
   dplyr::count(cor, corte) 
 
 diamante2 |>
-  ggplot(aes(x = cor, y = n, fill = corte)) +
-  geom_col() +
-  labs(y = "frequência") +
-  theme_minimal()
+    ggplot(aes(x = cor, y = n, fill = corte)) +
+    geom_col() +
+    labs(y = "frequência") +
+    theme_minimal()
+
+diamante2 |>
+    ggplot(aes(x = cor, y = n, fill = corte)) +
+    geom_col(position = position_dodge2()) +
+    labs(y = "frequência") +
+    theme_minimal()
 ```
 
 
@@ -613,7 +619,7 @@ voos |>
   labs(
     x = "mês",
     y = "destino",
-    fill = "atraso \nmédio (min)"
+    fill = "atraso médio (min)"
   ) +
   theme_minimal()
 ```
@@ -666,6 +672,36 @@ voos2 |>
   coord_flip()
 ```
 
+Talvez, seria ainda interessante apresentar a cada trimestre, agrupando, então, os mês de três em três.
+
+```{r}
+voos2 |>
+  dplyr::mutate(
+    trimestre = dplyr::case_when(
+      mes %in% 1:3 ~ "1º trimestre",
+      mes %in% 4:6 ~ "2º trimestre",
+      mes %in% 7:9 ~ "3º trimestre",
+      mes %in% 10:12 ~ "4º trimestre"
+    )
+  ) |>
+  ggplot(
+    aes(x = destino, y = mes, fill = atraso_medio)
+  ) +
+  geom_tile() +
+  facet_wrap(vars(trimestre), ncol = 1, scales = "free_y") +
+  scale_fill_viridis_c(option = "magma") +
+  labs(
+    x = "destino",
+    y = "mês",
+    fill = "atraso médio (min)"
+  ) +
+  theme(
+    legend.position = "top",
+    axis.text.x = element_text(size = 6, angle = 90)
+  ) +
+  scale_y_reverse()
+```
+
 
 ### Duas variáveis numéricas
 
@@ -681,15 +717,16 @@ menores_diamantes <- diamante |>
 
 ggplot(
   menores_diamantes,
-  aes(x = preco, color = cut_width(quilate, width = 0.25))
+  aes(x = preco, color = cut_width(quilate, width = 0.35))
 ) +
-  geom_freqpoly(binwidth = 500) +
+  geom_freqpoly(binwidth = 500, linewidth = 0.75) +
   labs(
     x = "preço (US$)",
     y = "frequência",
     color = "quilate (ct)"
   ) +
-  theme_minimal()
+  theme_minimal() +
+  scale_color_viridis_d()
 ```
 
 Já a função `cut_number()` gera $n$ grupos com números (aproximadamente) iguais de observações.
@@ -697,11 +734,12 @@ Já a função `cut_number()` gera $n$ grupos com números (aproximadamente) igu
 ```{r}
 ggplot(
   menores_diamantes,
-  aes(x = preco, color = cut_number(quilate, n = 11))
+  aes(x = preco, color = cut_number(quilate, n = 8))
 ) +
-  geom_freqpoly(binwidth = 500) +
+  geom_freqpoly(binwidth = 500, linewidth = 0.75) +
   labs(x = "preço (US$)", y = "frequência", color = "quilate (ct)") +
-  theme_minimal()
+  theme_minimal() +
+  scale_color_viridis_d()
 ```
 
 

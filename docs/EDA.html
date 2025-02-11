@@ -624,7 +624,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Por outro lado, no gráfico de barras, os valores ausentes são considerados, por padrão, como uma das categorias e são apresentados graficamente como a frequência de ocorrência de <code>NA</code>s.</p>
-<p>No exemplo abaixo, <code>NA</code>a são introduzidos na variável <code>corte</code> para demonstrar como valores faltantes são apresentados em um gráfico de barras.</p>
+<p>No exemplo abaixo, <code>NA</code>s são introduzidos na variável <code>corte</code> para demonstrar como valores faltantes são apresentados em um gráfico de barras.</p>
 <div class="cell">
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># transformando, em `NA`, as categorias do corte nas observações em que `y` não está entre 3 e 20</span></span>
 <span><span class="va">diamante2</span> <span class="op">&lt;-</span> <span class="va">diamante</span> <span class="op">|&gt;</span> </span>
@@ -678,7 +678,7 @@ window.Quarto = {
 <ol start="3" type="1">
 <li>Recrie o gráfico de frequência de <code>saida_programada</code> colorido de acordo com o voo ter sido cancelado ou não. Também use o facetamento para a variável <code>cancelado</code>. Experimente diferentes valores do argumento <code>scales</code> na função de facetamento para mitigar o efeito de mais voos não cancelados do que voos cancelados.</li>
 </ol>
-<p><strong>Resolução:</strong> Para conseguir ver a distribuição de cada categoria, tendo em vista que uma das categorias (a categoria referente aos voos não cancelados) tem muito mais voos do que outra (a categoria referente aos voos não cancelados), podemos gerar subgráficos para cada nível da variável <code>cancelado</code>, deixando que o eixo y, o qual expressa a frequência, seja ajustado individualmente para cada um.</p>
+<p><strong>Resolução:</strong> Para conseguir ver a distribuição de cada categoria, tendo em vista que uma das categorias (a categoria referente aos voos não cancelados) tem muito mais voos do que outra (a categoria referente aos voos cancelados), podemos gerar subgráficos para cada nível da variável <code>cancelado</code>, deixando que o eixo y, o qual expressa a frequência, seja ajustado individualmente para cada um.</p>
 <div class="cell">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">voos2</span> <span class="op">&lt;-</span> <span class="va">voos</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
@@ -693,12 +693,12 @@ window.Quarto = {
 <span>    cancelado <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">cancelado</span> <span class="op">==</span> <span class="cn">TRUE</span>, <span class="st">"cancelado"</span>, <span class="st">"não cancelado"</span><span class="op">)</span>,</span>
 <span>    cancelado <span class="op">=</span> <span class="fu">forcats</span><span class="fu">::</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">cancelado</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">saida_programada_em_hora</span>, color <span class="op">=</span> <span class="va">cancelado</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">saida_programada_em_hora</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_freqpoly</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">cancelado</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">1</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"saída programada (horas)"</span>, y <span class="op">=</span> <span class="st">"frequência"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>  <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="576"></p>
@@ -713,7 +713,7 @@ window.Quarto = {
 <ol type="1">
 <li>Use o que você aprendeu para melhorar a visualização dos horários de partida de voos cancelados e não cancelados.</li>
 </ol>
-<p><strong>Resolução:</strong></p>
+<p><strong>Resolução:</strong> Podemos visualizar melhor a distribuição dos horários de partida de voos cancelados e não cancelados gerando um boxplot.</p>
 <div class="cell">
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">dados</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/dados/man/voos.html">voos</a></span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
@@ -739,7 +739,7 @@ window.Quarto = {
 <ol start="2" type="1">
 <li>Com base na EDA, qual variável do banco de dados diamante parece ser mais importante para predizer o preço de um diamante? Como essa variável está correlacionada com corte? Por que a combinação dessas duas relações resulta em diamantes de pior qualidade terem preços mais elevados?</li>
 </ol>
-<p><strong>Resolução:</strong> Para visualizar as relações entre a variável <code>preco</code> e as demais variáveis númericas, podemos usar um <em>pair plot</em> que, além de gerar gráficos de dispersão, também estima a correlação entre as variáveis.</p>
+<p><strong>Resolução:</strong> Para visualizar as relações entre a variável <code>preco</code> e as demais variáveis númericas, podemos usar um <em>pair plot</em> que, além de gerar gráficos de dispersão entre duas variáveis, também estima a correlação entre as variáveis, o que pode ser útil para compreender a associação entre as variáveis mesmo que não testemos os pressupostos para uma análise de correlação propriamente dita.</p>
 <div class="cell">
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggobi.github.io/ggally/">GGally</a></span><span class="op">)</span></span>
 <span></span>
@@ -752,7 +752,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Embora as dimensões do diamanete pareçam ser importantes para predizer o preço, o quilate é a variável mais importante para predizer o preço. Observe que, à medida que o quilate aumenta, o preço aumenta de forma exponencial. Além disso, a análise de correlação confirma essa tendência, evidenciando uma relação forte entre o quilate e o preço do diamante.</p>
+<p>Embora as dimensões do diamanete pareçam ser importantes para predizer o preço, o quilate é a variável mais importante para predizer o preço. Observe que, à medida que o quilate aumenta, o preço aumenta de forma exponencial. Além disso, a análise de correlação sugere essa tendência, evidenciando uma relação forte entre o quilate e o preço do diamante.</p>
 <p>Como há muitos pontos, podemos gerar um boxplot agrupando os valores de quilate, assim como vimos anteriormente no capítulo.</p>
 <div class="cell">
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
@@ -788,12 +788,12 @@ window.Quarto = {
 </div>
 </div>
 <p>A variável <code>corte</code> representa a qualidade da lapidação do diamante, em que justo é pior que bom, que, por sua vez, é pior que muito bom e assim por diante.</p>
-<p>Observamos que diamantes com quilates mais altos tendem a ter qualidade de corte mais baixa (i.e., <em>justo</em>), enquanto que diamantes com qualidade de corte superior (i.e., <em>ideal</em>) tendem a terem menores valores de quilate.</p>
+<p>Observamos que diamantes com quilates mais altos parecem ter qualidade de corte mais baixa (i.e., <em>justo</em>), enquanto que diamantes com qualidade de corte superior (i.e., <em>ideal</em>) tendem a terem menores valores de quilate.</p>
 <p>Tendo em vista essas duas relações, uma possível explicação para que diamantes com pior qualidade de corte terem preços mais elevados pode ser o fato da associação entre preço e quilate ser mais forte. Isso provavelmente porque, como diamantes maiores são mais raros e a demanda por eles é maior, seus preços aumentam mais do que a potencial “desvalorização” por ter uma lapidação de qualidade inferior.</p>
 <ol start="3" type="1">
 <li>Ao invés de trocar as variáveis x e y, adicione <code><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip()</a></code> como uma nova camada para transformar o boxplot de vertical para horizontal. Como isso se compara à troca de variáveis?</li>
 </ol>
-<p><strong>Resolução:</strong> Anteriormente, criamos boxplots trocando os eixos x e y. Agora, vamos usar <code><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip()</a></code>.</p>
+<p><strong>Resolução:</strong> Anteriormente, criamos boxplots trocando os eixos x e y. Agora, vamos usar <code><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip()</a></code> para essa finalidade.</p>
 <div class="cell">
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">milhas</span>, </span>
 <span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu">forcats</span><span class="fu">::</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_reorder.html">fct_reorder</a></span><span class="op">(</span><span class="va">classe</span>, <span class="va">rodovia</span>, <span class="va">median</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">rodovia</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -829,7 +829,7 @@ window.Quarto = {
 </div>
 <p>É possível observar que diamantes de corte justo apresentam uma maior dispersão de preços. Além disso, diamantes com cortes de maior qualidade (i.e., ideal) geralmente possuem preços medianos menores.</p>
 <ol start="5" type="1">
-<li>Crie uma visualização dos preços dos diamantes vs.&nbsp;uma variável categórica do banco de dados diamante usando o <code><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin()</a></code>, depois um <code><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram()</a></code> facetado, e depois um <code><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_freqpoly()</a></code> colorido, e então um <code><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density()</a></code> colorido. Compare e contraste os quatro gráficos. Quais são os prós e contras de cada método de visualização da distribuição de uma variável numérica baseada nos níveis de uma variável categórica?</li>
+<li>Crie uma visualização dos preços dos diamantes <em>vs.</em> uma variável categórica do banco de dados diamante usando o <code><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin()</a></code>, depois um <code><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram()</a></code> facetado, e depois um <code><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_freqpoly()</a></code> colorido, e então um <code><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density()</a></code> colorido. Compare e contraste os quatro gráficos. Quais são os prós e contras de cada método de visualização da distribuição de uma variável numérica baseada nos níveis de uma variável categórica?</li>
 </ol>
 <p><strong>Resolução:</strong> Vamos visualizar a distribuição dos preços dos diamantes em relação à qualidade do corte por diferentes tipos de visualização.</p>
 <p><em>Gráfico de violino</em></p>
@@ -848,7 +848,7 @@ window.Quarto = {
 </div>
 </div>
 <p><em>Histograma</em></p>
-<p>O histograma é uma representação da distribuição dos dados, possibilitando a comparação de frequências absolutas e identificaão de assimetrias. No entanto, é uma representação dependente do tamanho das classes (i.e., bins).</p>
+<p>O histograma é uma representação da distribuição dos dados, possibilitando a comparação de frequências absolutas e identificaão de assimetrias. No entanto, é uma representação dependente do tamanho das classes (i.e., <em>bins</em>).</p>
 <div class="cell">
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">diamante</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">preco</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">+</span></span>
@@ -863,11 +863,11 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p><em>Gráfico de frequência</em></p>
-<p>O gráfico de frequência é uma alternativa ao histograma que traça linhas ao invés de barras. É uma representação boa para comparar diferentes categorias. No entanto, pode dificultar a interpretação quando há muitas categorias.</p>
+<p><em>Polígono de frequência</em></p>
+<p>O polígono de frequência é uma alternativa ao histograma que traça linhas ao invés de barras. É uma representação boa para comparar diferentes categorias. No entanto, pode dificultar a interpretação quando há muitas categorias.</p>
 <div class="cell">
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">diamante</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">preco</span>, y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">after_stat</a></span><span class="op">(</span><span class="va">density</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_freqpoly</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">corte</span><span class="op">)</span>, binwidth <span class="op">=</span> <span class="fl">500</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_freqpoly</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">corte</span><span class="op">)</span>, binwidth <span class="op">=</span> <span class="fl">500</span>, linewidth <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"preço (US$)"</span>,</span>
 <span>       y <span class="op">=</span> <span class="st">"frequência"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -878,11 +878,11 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p><em>Gráfico de densidade</em></p>
-<p>O gráfico de frequência é uma representação excelente para comparar distribuições e evidenciar padrões gerais, uma vez que suaviza variações nos dados. No entanto, pode subestimar ou superestimar densidades se a suavização for inadequada.</p>
+<p><em>Densidade de probabilidade</em></p>
+<p>A densidade de probabilidade é uma representação excelente para comparar distribuições e evidenciar padrões gerais, uma vez que suaviza variações nos dados e padroniza as frequências das diferentes categorias. No entanto, pode subestimar ou superestimar densidades se a suavização for inadequada.</p>
 <div class="cell">
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">diamante</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">preco</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">corte</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">corte</span><span class="op">)</span>, linewidth <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"preço (US$)"</span>,</span>
 <span>       y <span class="op">=</span> <span class="st">"densidade"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -896,7 +896,7 @@ window.Quarto = {
 <ol start="6" type="1">
 <li>Se você tem um pequeno conjunto de dados, às vezes é útil usar <code><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter()</a></code> para evitar sobreposição dos pontos e visualizar mais facilmente a relação entre as variáveis contínuas e categóricas. O pacote <code>ggbeeswarm</code> disponibiliza vários métodos similares ao <code><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter()</a></code>. Liste-os e descreva brevemente o que cada um deles faz.</li>
 </ol>
-<p><strong>Resolução:</strong> O pacote ggbeeswarm oferece duas alternativas ao <code><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter()</a></code> do <code>ggplot2</code>, permitindo visualizar melhor a dispersão dos pontos ao evitar sobreposição.</p>
+<p><strong>Resolução:</strong> O pacote <code>ggbeeswarm</code> oferece duas alternativas ao <code><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter()</a></code> do <code>ggplot2</code>, permitindo visualizar melhor a dispersão dos pontos ao evitar sobreposição.</p>
 <ul>
 <li>
 <code><a href="https://rdrr.io/pkg/ggbeeswarm/man/geom_quasirandom.html">geom_quasirandom()</a></code>: distribui os pontos aleatoriamente ao longo do eixo categórico, permitindo uma melhor visualização de pontos sobrepostos. Ao empregar a função, podem ser definidos vários métodos diferentes para determinar como os pontos serão distribuídos.</li>
@@ -1056,7 +1056,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Para mostrar a distribuição da cor dentro do corte, estimaremos a proporção de cada cor para cada corte</p>
+<p>Agora, para mostrar a distribuição da cor dentro do corte, estimaremos a proporção de cada cor para cada corte.</p>
 <div class="cell">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">diamante</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">corte</span>, <span class="va">cor</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -1075,18 +1075,28 @@ window.Quarto = {
 </div>
 </div>
 <ol start="2" type="1">
-<li>Que diferentes insights de dados você obtém com um gráfico de barras segmentado se a cor for mapeada para a estética x e o corte for mapeado para a estética de preenchimento? Calcule as contagens que se enquadram em cada um dos segmentos.</li>
+<li>Que diferentes <em>insights</em> de dados você obtém com um gráfico de barras segmentado se a cor for mapeada para a estética x e o corte for mapeado para a estética de preenchimento? Calcule as contagens que se enquadram em cada um dos segmentos.</li>
 </ol>
 <p><strong>Resolução:</strong></p>
 <div class="cell">
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">diamante2</span> <span class="op">&lt;-</span> <span class="va">diamante</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: pacote 'patchwork' foi compilado no R versão 4.4.2</span></span>
+<span></span>
+<span><span class="va">diamante2</span> <span class="op">&lt;-</span> <span class="va">diamante</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">cor</span>, <span class="va">corte</span><span class="op">)</span> </span>
 <span></span>
-<span><span class="va">diamante2</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">cor</span>, y <span class="op">=</span> <span class="va">n</span>, fill <span class="op">=</span> <span class="va">corte</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"frequência"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">{</span></span>
+<span>  <span class="va">diamante2</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">cor</span>, y <span class="op">=</span> <span class="va">n</span>, fill <span class="op">=</span> <span class="va">corte</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"frequência"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">}</span> <span class="op">|</span> <span class="op">{</span><span class="va">diamante2</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">cor</span>, y <span class="op">=</span> <span class="va">n</span>, fill <span class="op">=</span> <span class="va">corte</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_dodge.html">position_dodge2</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"frequência"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="576"></p>
@@ -1113,7 +1123,7 @@ window.Quarto = {
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="st">"mês"</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"destino"</span>,</span>
-<span>    fill <span class="op">=</span> <span class="st">"atraso \nmédio (min)"</span></span>
+<span>    fill <span class="op">=</span> <span class="st">"atraso médio (min)"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1169,6 +1179,40 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<p>Talvez, seria ainda interessante apresentar a cada trimestre, agrupando, então, os mês de três em três.</p>
+<div class="cell">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">voos2</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    trimestre <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>      <span class="va">mes</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span> <span class="op">~</span> <span class="st">"1º trimestre"</span>,</span>
+<span>      <span class="va">mes</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fl">4</span><span class="op">:</span><span class="fl">6</span> <span class="op">~</span> <span class="st">"2º trimestre"</span>,</span>
+<span>      <span class="va">mes</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fl">7</span><span class="op">:</span><span class="fl">9</span> <span class="op">~</span> <span class="st">"3º trimestre"</span>,</span>
+<span>      <span class="va">mes</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fl">10</span><span class="op">:</span><span class="fl">12</span> <span class="op">~</span> <span class="st">"4º trimestre"</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">destino</span>, y <span class="op">=</span> <span class="va">mes</span>, fill <span class="op">=</span> <span class="va">atraso_medio</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">trimestre</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">1</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_c</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"magma"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"destino"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"mês"</span>,</span>
+<span>    fill <span class="op">=</span> <span class="st">"atraso médio (min)"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
+<span>    legend.position <span class="op">=</span> <span class="st">"top"</span>,</span>
+<span>    axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">6</span>, angle <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_reverse</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
 </section><section id="duas-variáveis-numéricas" class="level3" data-number="2.4.3"><h3 data-number="2.4.3" class="anchored" data-anchor-id="duas-variáveis-numéricas">
 <span class="header-section-number">2.4.3</span> Duas variáveis numéricas</h3>
 <ol type="1">
@@ -1177,39 +1221,41 @@ window.Quarto = {
 <p><strong>Resolução:</strong> Tanto a função <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_width()</a></code> quanto a <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_number()</a></code> permitem discretizar uma variável númerica em categórica.</p>
 <p>A função <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_width()</a></code> permite gerar grupos de mesma largura.</p>
 <div class="cell">
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">menores_diamantes</span> <span class="op">&lt;-</span> <span class="va">diamante</span> <span class="op">|&gt;</span> </span>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">menores_diamantes</span> <span class="op">&lt;-</span> <span class="va">diamante</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">quilate</span> <span class="op">&lt;</span> <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
 <span>  <span class="va">menores_diamantes</span>,</span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">preco</span>, color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_width</a></span><span class="op">(</span><span class="va">quilate</span>, width <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">preco</span>, color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_width</a></span><span class="op">(</span><span class="va">quilate</span>, width <span class="op">=</span> <span class="fl">0.35</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_freqpoly</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">500</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_freqpoly</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">500</span>, linewidth <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="st">"preço (US$)"</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"frequência"</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"quilate (ct)"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="576"></p>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Já a função <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_number()</a></code> gera <span class="math inline">\(n\)</span> grupos com números (aproximadamente) iguais de observações.</p>
 <div class="cell">
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
 <span>  <span class="va">menores_diamantes</span>,</span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">preco</span>, color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_number</a></span><span class="op">(</span><span class="va">quilate</span>, n <span class="op">=</span> <span class="fl">11</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">preco</span>, color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_number</a></span><span class="op">(</span><span class="va">quilate</span>, n <span class="op">=</span> <span class="fl">8</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_freqpoly</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">500</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_freqpoly</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">500</span>, linewidth <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"preço (US$)"</span>, y <span class="op">=</span> <span class="st">"frequência"</span>, color <span class="op">=</span> <span class="st">"quilate (ct)"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="576"></p>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>
@@ -1219,7 +1265,7 @@ window.Quarto = {
 </ol>
 <p><strong>Resolução:</strong></p>
 <div class="cell">
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">menores_diamantes</span> <span class="op">&lt;-</span> <span class="va">diamante</span> <span class="op">|&gt;</span> </span>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">menores_diamantes</span> <span class="op">&lt;-</span> <span class="va">diamante</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">quilate</span> <span class="op">&lt;</span> <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">menores_diamantes</span>, </span>
@@ -1237,13 +1283,13 @@ window.Quarto = {
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="576"></p>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-34-2.png" class="img-fluid figure-img" width="576"></p>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-35-2.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>
@@ -1257,7 +1303,7 @@ window.Quarto = {
 </ol>
 <p><strong>Resolução:</strong></p>
 <div class="cell">
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">diamante</span>,</span>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">diamante</span>,</span>
 <span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">corte</span>,</span>
 <span>           y <span class="op">=</span> <span class="va">preco</span>, </span>
 <span>           color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_number</a></span><span class="op">(</span><span class="va">quilate</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -1269,7 +1315,7 @@ window.Quarto = {
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="576"></p>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>
@@ -1278,14 +1324,14 @@ window.Quarto = {
 <li>Gráficos bidimensionais revelam valores discrepantes que não são visíveis em gráficos unidimensionais. Por exemplo, alguns pontos no gráfico a seguir têm uma combinação incomum de valores <code>x</code> e <code>y</code>, o que torna os pontos discrepantes, embora seus valores <code>x</code> e <code>y</code> pareçam normais quando examinados separadamente. Por que um gráfico de dispersão é uma exibição melhor do que um gráfico agrupado neste caso?</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">diamante</span> <span class="op">|&gt;</span> </span>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">diamante</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&gt;=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">11</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">11</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid figure-img" width="576"></p>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>
@@ -1295,12 +1341,12 @@ window.Quarto = {
 <li>Em vez de criar classes de largura igual com <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_width()</a></code>, poderíamos criar classes que contenham um número aproximadamente igual de pontos com cut_number(). Quais são as vantagens e desvantagens desta abordagem?</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">menores_diamantes</span>, </span>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">menores_diamantes</span>, </span>
 <span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">quilate</span>, y <span class="op">=</span> <span class="va">preco</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>group <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html">cut_number</a></span><span class="op">(</span><span class="va">quilate</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid figure-img" width="576"></p>
+<figure class="figure"><p><img src="EDA_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>
