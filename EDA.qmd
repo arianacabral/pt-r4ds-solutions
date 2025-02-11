@@ -697,7 +697,7 @@ voos2 |>
   ) +
   theme(
     legend.position = "top",
-    axis.text.x = element_text(size = 6, angle = 90)
+    axis.text.x = element_text(size = 5, angle = 90)
   ) +
   scale_y_reverse()
 ```
